@@ -6,14 +6,17 @@ import Accordion from './components/Accordion';
 
 export default function Home() {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [showAccordion, setShowAccordion] = useState(false);
 
   const handleFormSubmit = (formData) => {
     console.log('Form submitted:', formData);
     setFormSubmitted(true);
+    // Don't setShowAccordion here - it will be controlled by Form component
   };
 
   const handleFormClear = () => {
     setFormSubmitted(false);
+    setShowAccordion(false);
   };
 
   return (
@@ -31,20 +34,24 @@ export default function Home() {
       {/* Main Content */}
       <main className="flex flex-1 main-content">
         {/* Left Side - Form */}
-          <div className="w-1/2 p-8 border-r border-gray-200 left-col">
-          <Form onSubmit={handleFormSubmit} onClear={handleFormClear} />
+        <div className="w-1/2 p-8 border-r border-gray-200 left-col">
+          <Form 
+            onSubmit={handleFormSubmit} 
+            onClear={handleFormClear} 
+            setShowContent={setShowAccordion}
+          />
         </div>
 
         {/* Right Side - Accordion */}
-        <div className=" right-col">
-          <Accordion showContent={formSubmitted} />
+        <div className="w-1/2 p-8 right-col">
+          <Accordion showContent={showAccordion} />
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="bg-white site-footer ">
+      <footer className="bg-white site-footer">
         {/* New Customer Message */}
-        <div className="px-8 py-8  footer-message">
+        <div className="px-8 py-8 footer-message">
           <p style={{ color: '#3C4043' }} className="text-sm px-8 pt-16 mb-2">
             New customer? Please visit <a href="#" className="text-[#D1470B] underline font-medium">UK Visas and Immigration</a> to complete 
           </p>
@@ -70,8 +77,8 @@ export default function Home() {
           </div>
 
           {/* Copyright */}
-          <div style={{ color: '#5F6368' }} className=" font-normal footer-copy">
-            <p className="mb-1 bold text-[10]">© 2026 VFS Global Group. All rights reserved. ISO 23026 compliant information. Our websites are created for viewing on the latest browsers.</p>
+          <div style={{ color: '#5F6368' }} className="font-normal footer-copy">
+            <p className="mb-1 text-xs">© 2026 VFS Global Group. All rights reserved. ISO 23026 compliant information. Our websites are created for viewing on the latest browsers.</p>
           </div>
         </div>
       </footer>

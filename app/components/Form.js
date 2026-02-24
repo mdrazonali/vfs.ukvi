@@ -2,13 +2,17 @@
 
 import { useState } from 'react';
 
-export default function Form({ onSubmit, onClear }) {
+export default function Form({ onSubmit, onClear, setShowContent }) {
   const [formData, setFormData] = useState({
     field1: '',
     field2: '',
   });
   const [isVerified, setIsVerified] = useState(false);
   const [verificationStatus, setVerificationStatus] = useState('idle'); // idle, verifying, verified
+  const [error, setError] = useState('');
+
+  const VALID_REFERENCE = "GWF066300685";
+  const VALID_EMAIL = "tmlabib7@gmail.com";
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,6 +20,8 @@ export default function Form({ onSubmit, onClear }) {
       ...prev,
       [name]: value,
     }));
+    // Clear error when user types
+    setError('');
   };
 
   const handleClear = () => {
@@ -23,7 +29,11 @@ export default function Form({ onSubmit, onClear }) {
       field1: '',
       field2: '',
     });
+    setError('');
+    setIsVerified(false);
+    setVerificationStatus('idle');
     if (typeof onClear === 'function') onClear();
+    if (typeof setShowContent === 'function') setShowContent(false);
   };
 
   const handleVerificationCheck = (e) => {
@@ -41,8 +51,21 @@ export default function Form({ onSubmit, onClear }) {
   };
 
   const handleSubmit = () => {
-    if (isVerified) {
-      onSubmit(formData);
+    if (!isVerified) {
+      setError('Please verify you are human');
+      return;
+    }
+
+    // Check credentials
+    if (formData.field1 === VALID_REFERENCE && formData.field2 === VALID_EMAIL) {
+      setError('');
+      // Only show accordion when credentials are valid
+      if (typeof setShowContent === 'function') setShowContent(true);
+      if (typeof onSubmit === 'function') onSubmit(formData);
+    } else {
+      setError('Invalid reference number or email');
+      // Hide accordion if credentials are invalid
+      if (typeof setShowContent === 'function') setShowContent(false);
     }
   };
 
@@ -60,6 +83,13 @@ export default function Form({ onSubmit, onClear }) {
       <i className="text-xs mb-0" style={{ color: '#5F6368' }}>
         <i style={{ color: '#DB4437' }}>*</i> denotes mandatory fields
       </i>
+
+      {/* Error Message */}
+      {error && (
+        <div className="mt-2 p-2 bg-red-100 border border-red-400 text-red-700 rounded">
+          {error}
+        </div>
+      )}
 
       {/* Form */}
       <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>

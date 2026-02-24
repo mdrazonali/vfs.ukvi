@@ -53,12 +53,13 @@ p {
 }
 
 .left-col {
-  width: 40%;
-  border: 1.5px solid #c1c1c1;
-  border-radius: 12px;
-  padding: 2rem 3rem;
-  box-sizing: border-box;
-  background: #fff;
+    box-sizing: border-box;
+    background: #fff;
+    border: 1.5px solid #c1c1c1;
+    border-radius: 12px;
+    width: 40%;
+    padding: 2rem 3rem;
+    height: 413px !important;
 }
 
 /* Form input styles (left column) per provided Cloudflare-like design */
@@ -295,3 +296,32 @@ input#cf-checkbox:checked {
     top: 90%;
 }
 
+
+/* responsive========== */
+
+@media screen and (max-width: 768px){
+  .main-content {
+    flex-direction: column;
+  }
+
+  .left-col {
+      height: 491px !important;
+  }
+
+  element.style {
+      top: 72%;
+  }
+
+  .right-col {
+      width: 100%;
+      padding: 2rem 0px;
+  }
+
+  .left-col {
+      padding: 1.5rem 1.5rem;
+  }
+
+  .mt-8.border.border-gray-300.p-2.py-3.w-75.flex.gap-2.items-center {
+      width: 280px;
+  }
+}

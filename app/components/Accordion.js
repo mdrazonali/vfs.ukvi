@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+
 export default function Accordion({ showContent }) {
   const [expandedItem, setExpandedItem] = useState(null);
 
@@ -9,14 +10,13 @@ export default function Accordion({ showContent }) {
     setExpandedItem(expandedItem === item ? null : item);
   };
 
-  // Two accordion panels; each panel contains a 5-step timeline
+  // Two accordion panels; each panel contains steps
   const items = [
     {
       id: 'application',
       title: 'Track Application',
       decision: 'Application submitted to UKVI',
       steps: [
-        //Application submitted to UKVI
         { id: 's1', label: 'Application submitted to UKVI', done: true },
         { id: 's2', label: 'Decision received from UKVI', done: true },
         { id: 's3', label: 'Passport is ready for collection or courier', done: true },
@@ -28,25 +28,27 @@ export default function Accordion({ showContent }) {
       title: 'Track Passport',
       decision: 'Passport: Awaiting collection by customer',
       steps: [
-        //Passport: Awaiting collection by customer
         { id: 'p1', label: 'Passport: Stored security in VCAS Centre', done: true },
         { id: 'p2', label: 'Passport: Returned to customer (KMPWA)', done: true },
         { id: 'p3', label: 'Passport: Awaiting receipt from customer', done: true },
-        { id: 'p4', label: 'Passport: Awaiting collection by customer (24 February 2026)', done: true },
+        { id: 'p4', label: 'Passport: Awaiting collection by customer (01 March 2026)', done: true },
         { id: 'p5', label: 'Passport: Collected by customer', done: false },
         { id: 'p6', label: 'Passport: Dispatched to customer by courier', done: false },
       ],
     },
   ];
 
+  // Fix ESLint warning: use setTimeout for all state updates in useEffect
   useEffect(() => {
-    let t;
-    if (showContent) {
-      t = setTimeout(() => setExpandedItem('application'), 0);
-    } else {
-      t = setTimeout(() => setExpandedItem(null), 0);
-    }
-    return () => clearTimeout(t);
+    const timer = setTimeout(() => {
+      if (showContent) {
+        setExpandedItem('application');
+      } else {
+        setExpandedItem(null);
+      }
+    }, 0);
+    
+    return () => clearTimeout(timer);
   }, [showContent]);
 
   return (
@@ -67,11 +69,12 @@ export default function Accordion({ showContent }) {
               className={`transform transition ${expandedItem === item.id ? 'rotate-180' : ''}`}
             />
           </button>
-          {expandedItem === item.id && (
+          {/* Content only shows when expanded AND showContent is true */}
+          {expandedItem === item.id && showContent && (
             <div className="px-4 py-3 bg-white border-t border-gray-300">
               <div className="timeline">
                 <p className="text-[#D1470B] font-normal">{item.decision}</p>
-                {item.steps.map((step, idx) => (
+                {item.steps.map((step) => (
                   <div key={step.id} className="timeline-item">
                     <div className="timeline-icon">
                       {step.done ? (
@@ -96,5 +99,3 @@ export default function Accordion({ showContent }) {
     </div>
   );
 }
-
-
