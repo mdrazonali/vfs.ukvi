@@ -256,7 +256,7 @@ export default function Form({ onSubmit, onClear, setShowContent }) {
       </div>
 
       {/* Buttons */}
-      <div className="flex gap-4 mt-6" style={{ position: 'absolute', width: '300px', left: '30px', top: '90%'}}>
+      <div className="flex gap-4 mt-6" style={{ position: 'absolute', width: '300px', left: '30px', top: '75%'}}>
         <button
           type="button"
           onClick={handleClear}
