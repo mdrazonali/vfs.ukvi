@@ -31,7 +31,7 @@ export default function Accordion({ showContent }) {
         { id: 'p1', label: 'Passport: Stored security in VCAS Centre', done: true },
         { id: 'p2', label: 'Passport: Returned to customer (KMPWA)', done: true },
         { id: 'p3', label: 'Passport: Awaiting receipt from customer', done: true },
-        { id: 'p4', label: 'Passport: Awaiting collection by customer (01 March 2026)', done: true },
+        { id: 'p4', label: 'Passport: Awaiting collection by customer (05 March 2026)', done: true },
         { id: 'p5', label: 'Passport: Collected by customer', done: false },
         { id: 'p6', label: 'Passport: Dispatched to customer by courier', done: false },
       ],
