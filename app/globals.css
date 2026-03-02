@@ -305,8 +305,9 @@ input#cf-checkbox:checked {
   }
 
   .left-col {
-      height: 491px !important;
-  }
+    height: 415px!important;
+    width: 100%;
+}
 
   element.style {
       top: 72%;
